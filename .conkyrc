@@ -1,0 +1,35 @@
+background        no
+out_to_console 	  yes
+out_to_x	  no
+update_interval	  5
+total_run_times	  0
+short_units	  yes
+pad_percents	  3
+no_buffers yes
+
+override_utf8_locale yes
+
+TEXT
+,[{"full_text": " "},
+  {"full_text": " $cpu%","icon":"/home/dflies/.config/dzen2/icons/cpu.xbm","color": "\#99D7FF"},
+  {"full_text": " $memeasyfree", "icon":"/home/dflies/.config/dzen2/icons/mem.xbm", "color":"\#F3D194"},
+${if_existing /proc/net/route eth0}
+  {"full_text": " eth0 (${addr eth0}) [${downspeed eth0}/${upspeed eth0}] ","icon":"/home/dflies/.config/dzen2/icons/net_wired.xbm","color":"\#FFFE6A"},
+$endif
+${if_existing /proc/net/route wlan0}
+  {"full_text": " ${wireless_essid wlan0} (${addr wlan0}) ${wireless_link_qual_perc wlan0}% ","icon":"/home/dflies/.config/dzen2/icons/net_wired.xbm","color":"\#FFFE6A"},
+$endif
+${if_smapi_bat_installed 0}
+  {"full_text": " ${smapi_bat_perc 0}% ${if_existing /sys/devices/platform/smapi/BAT0/state idle}idle${else}${if_existing /sys/devices/platform/smapi/BAT0/remaining_running_time not_discharging}[${smapi bat 0 start_charge_thresh}:${smapi bat 0 stop_charge_thresh}]${else}${smapi_bat_power 0} $endif (${battery_time})$endif ${smapi_bat_temp 0}C ","color":"\#94F397","icon":"/home/dflies/.config/dzen2/icons/bat_full_01.xbm"},
+$endif
+
+${if_running sshd}
+  {"full_text": " sshd ","color": "\#90FF90"},
+$endif
+
+  {"full_text": " ${loadavg 1} ","color": "\#909090","icon": "/home/dflies/.config/dzen2/icons/clock.xbm"},
+  {"full_text": " ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP temperature}° ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP cloud_cover} ", "icon":"/home/dflies/.config/dzen2/icons/weather.xbm"},
+  {"full_text": " ${time %a %d.%m. (%b)} "},
+  {"full_text": " ${time %H:%M} ","icon": "/home/dflies/.config/dzen2/icons/clock.xbm"},
+  {"full_text": " "}
+]
