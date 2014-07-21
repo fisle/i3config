@@ -19,7 +19,8 @@ TEXT
   {"full_text": "$mem/$memmax","color":"\#F3D194","separator":false,"separator_block_width":6},
   {"full_text": "NET", "color":"\#888888","separator":false,"separator_block_width":6},
 ${if_existing /proc/net/route eth1}
-  {"full_text": "${addr eth1} [${downspeed eth1}/${upspeed eth1}] ","color":"\#FFFE6A","separator":false,"separator_block_width":6},
+  {"full_text": "${addr eth1}","color":"\#FFFE6A","separator":false,"separator_block_width":6},
+  {"full_text": "[${downspeed eth1}/${upspeed eth1}]","color":"\#ffffff","separator":false,"separator_block_width":6},
 $endif
 ${if_existing /proc/net/route wlan0}
   {"full_text": "wlan0", "color":"\#888888","separator":false,"separator_block_width":6},
