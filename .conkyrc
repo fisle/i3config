@@ -26,6 +26,8 @@ ${if_existing /proc/net/route wlan0}
   {"full_text": "wlan0", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${wireless_essid wlan0} (${addr wlan0}) ${wireless_link_qual_perc wlan0}% ","color":"\#FFFE6A","separator":false,"separator_block_width":6},
 $endif
+  {"full_text": "EXT","color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${execi 30 /home/dflies/.i3/external_ip.sh}","color":"\#ffffff","separator":false,"separator_block_width":6},
 
 ${if_running sshd}
   {"full_text": "SSHD","color": "\#90FF90","separator":false,"separator_block_width":6},
@@ -34,7 +36,7 @@ $endif
   {"full_text": "LOAD", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${loadavg 1}","color": "\#ffffff","separator":false,"separator_block_width":6},
   {"full_text": "WEATHER", "color":"\#888888","separator":false,"separator_block_width":6},
-  {"full_text": "${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP temperature}° ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP cloud_cover}","separator":false,"separator_block_width":6},
+  {"full_text": "${execi 300 /home/dflies/.i3/weather.sh}","color":"\#ffffff","separator":false,"separator_block_width":6},
   {"full_text": "DATE", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${time %a %d.%m. (%b)}", "name":"date","separator":false,"separator_block_width":6},
   {"full_text": "TIME", "color":"\#888888","separator":false,"separator_block_width":6},
