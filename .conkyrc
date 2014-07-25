@@ -6,7 +6,6 @@ total_run_times	  0
 short_units	  yes
 pad_percents	  3
 no_buffers yes
-
 override_utf8_locale yes
 
 TEXT
@@ -18,10 +17,6 @@ TEXT
   {"full_text": "MEM", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "$mem/$memmax","color":"\#F3D194","separator":false,"separator_block_width":6},
   {"full_text": "NET", "color":"\#888888","separator":false,"separator_block_width":6},
-${if_existing /proc/net/route br0}
-  {"full_text": "${addr br0}","color":"\#FFFE6A","separator":false,"separator_block_width":6},
-  {"full_text": "[${downspeed br0}/${upspeed br0}]","color":"\#ffffff","separator":false,"separator_block_width":6},
-$endif
 ${if_existing /proc/net/route enp0s25}
   {"full_text": "${addr enp0s25}","color":"\#FFFE6A","separator":false,"separator_block_width":6},
   {"full_text": "[${downspeed enp0s25}/${upspeed enp0s25}]","color":"\#ffffff","separator":false,"separator_block_width":6},
@@ -36,10 +31,8 @@ $endif
 ${if_running sshd}
   {"full_text": "SSHD","color": "\#90FF90","separator":false,"separator_block_width":6},
 $endif
-
   {"full_text": "BAT","color": "\#888888","separator":false,"separator_block_width":6},
   {"full_text": " ${battery} / ${battery_time}","separator":false,"separator_block_width":6},
-
   {"full_text": "LOAD", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${loadavg 1}","color": "\#ffffff","separator":false,"separator_block_width":6},
   {"full_text": "WEATHER", "color":"\#888888","separator":false,"separator_block_width":6},
