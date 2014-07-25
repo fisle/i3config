@@ -10,26 +10,42 @@ no_buffers yes
 override_utf8_locale yes
 
 TEXT
-,[{"full_text": " "},
-  {"full_text": " $cpu%","icon":"/home/dflies/.config/dzen2/icons/cpu.xbm","color": "\#99D7FF"},
-  {"full_text": " $memeasyfree", "icon":"/home/dflies/.config/dzen2/icons/mem.xbm", "color":"\#F3D194"},
-${if_existing /proc/net/route eth0}
-  {"full_text": " eth0 (${addr eth0}) [${downspeed eth0}/${upspeed eth0}] ","icon":"/home/dflies/.config/dzen2/icons/net_wired.xbm","color":"\#FFFE6A"},
+,[
+  {"full_text": "CPU", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "$cpu%","color": "\#99D7FF","separator":false,"separator_block_width":6},
+  {"full_text": "${acpitemp}°C", "color": "\#d3bb0f","separator":false,"separator_block_width":6},
+  {"full_text": "${freq 1} MHz", "color": "\#9bf74c","separator":false,"separator_block_width":6},
+  {"full_text": "MEM", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "$mem/$memmax","color":"\#F3D194","separator":false,"separator_block_width":6},
+  {"full_text": "NET", "color":"\#888888","separator":false,"separator_block_width":6},
+${if_existing /proc/net/route br0}
+  {"full_text": "${addr br0}","color":"\#FFFE6A","separator":false,"separator_block_width":6},
+  {"full_text": "[${downspeed br0}/${upspeed br0}]","color":"\#ffffff","separator":false,"separator_block_width":6},
 $endif
-${if_existing /proc/net/route wlan0}
-  {"full_text": " ${wireless_essid wlan0} (${addr wlan0}) ${wireless_link_qual_perc wlan0}% ","icon":"/home/dflies/.config/dzen2/icons/net_wired.xbm","color":"\#FFFE6A"},
+${if_existing /proc/net/route enp0s25}
+  {"full_text": "${addr enp0s25}","color":"\#FFFE6A","separator":false,"separator_block_width":6},
+  {"full_text": "[${downspeed enp0s25}/${upspeed enp0s25}]","color":"\#ffffff","separator":false,"separator_block_width":6},
 $endif
-${if_smapi_bat_installed 0}
-  {"full_text": " ${smapi_bat_perc 0}% ${if_existing /sys/devices/platform/smapi/BAT0/state idle}idle${else}${if_existing /sys/devices/platform/smapi/BAT0/remaining_running_time not_discharging}[${smapi bat 0 start_charge_thresh}:${smapi bat 0 stop_charge_thresh}]${else}${smapi_bat_power 0} $endif (${battery_time})$endif ${smapi_bat_temp 0}C ","color":"\#94F397","icon":"/home/dflies/.config/dzen2/icons/bat_full_01.xbm"},
+${if_existing /proc/net/route wlp2s0}
+  {"full_text": "wlp2s0", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${wireless_essid wlp2s0} (${addr wlp2s0}) ${wireless_link_qual_perc wlp2s0}% ","color":"\#FFFE6A","separator":false,"separator_block_width":6},
 $endif
+  {"full_text": "EXT","color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${execi 30 /home/dflies/.i3/external_ip.sh}","color":"\#ffffff","separator":false,"separator_block_width":6},
 
 ${if_running sshd}
-  {"full_text": " sshd ","color": "\#90FF90"},
+  {"full_text": "SSHD","color": "\#90FF90","separator":false,"separator_block_width":6},
 $endif
 
-  {"full_text": " ${loadavg 1} ","color": "\#909090","icon": "/home/dflies/.config/dzen2/icons/clock.xbm"},
-  {"full_text": " ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP temperature}° ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EFTP cloud_cover} ", "icon":"/home/dflies/.config/dzen2/icons/weather.xbm"},
-  {"full_text": " ${time %a %d.%m. (%b)} "},
-  {"full_text": " ${time %H:%M} ","icon": "/home/dflies/.config/dzen2/icons/clock.xbm"},
-  {"full_text": " "}
+  {"full_text": "BAT","color": "\#888888","separator":false,"separator_block_width":6},
+  {"full_text": " ${battery} / ${battery_time}","separator":false,"separator_block_width":6},
+
+  {"full_text": "LOAD", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${loadavg 1}","color": "\#ffffff","separator":false,"separator_block_width":6},
+  {"full_text": "WEATHER", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${execi 300 /home/dflies/.i3/weather.sh}","color":"\#ffffff","separator":false,"separator_block_width":6},
+  {"full_text": "DATE", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${time %a %d.%m. (%b)}", "name":"date","separator":false,"separator_block_width":6},
+  {"full_text": "TIME", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${time %H:%M}","separator":false,"separator_block_width":6}
 ]
