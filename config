@@ -15,15 +15,22 @@ exec nm-applet
 exec dropboxd
 exec udiskie --tray
 exec setxkbmap fi
-exec xmodmap -e "keycode 49 = less greater less greater bar brokenbar bar"
+exec dunst
+exec pulseaudio --start
+exec nitrogen --restore
+exec gnome-pie
+exec albert
+exec owncloud
+exec conky -c ~/.conky_weather
 
 set $mod Mod4
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font pango:Ubuntu Mono 8
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -37,16 +44,16 @@ client.focused_inactive     #000000 #333333 #ffffff
 client.unfocused            #000000 #333333 #ffffff
 client.urgent               #ff0000 #ff0000 #ff0000
 
-set $w1 1 main
-set $w2 2 www
-set $w3 3 three
-set $w4 4 four
-set $w5 5 five
-set $w6 6 six
-set $w7 7 seven
-set $w8 8 eight
-set $w9 9 nine
-set $w10 10 ten
+set $w1 1
+set $w2 2
+set $w3 3
+set $w4 4
+set $w5 5
+set $w6 6
+set $w7 7
+set $w8 8
+set $w9 9
+set $w10 10
 
 workspace_auto_back_and_forth yes
 
@@ -59,12 +66,32 @@ bindsym XF86AudioLowerVolume exec /home/dflies/scripts/volume.rb down
 bindsym XF86AudioMute exec /home/dflies/scripts/volume.rb toggle
 bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input
 # spotify control
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioNext exec /home/dflies/scripts/player.sh next
+bindsym XF86AudioPrev exec /home/dflies/scripts/player.sh prev
+bindsym XF86AudioPlay exec /home/dflies/scripts/player.sh toggle
+bindsym XF86AudioStop exec /home/dflies/scripts/player.sh stop
 
-bindsym $mod+End exec i3lock --color=000000
+bindsym $mod+Home exec sleep 1 && xset dpms force off
+bindsym $mod+Insert exec /home/dflies/scripts/tenkeyless.sh
+bindsym $mod+End exec i3lock --color=000000 & sleep 1 && xset dpms force off
+bindsym $mod+u [urgent=latest] focus
+
+bindsym $mod+c exec ~/scripts/eddykk.sh
+
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus [instance="^(?!conky)"] scratchpad show
+bindsym $mod+F12 [instance="conky"] scratchpad show
+
+# i3 gaps
+bindsym $mod+Next gaps outer current minus 5
+bindsym $mod+Prior gaps outer current plus 5
+bindsym $mod+Shift+Next gaps inner current minus 5
+bindsym $mod+Shift+Prior gaps inner current plus 5
+gaps inner 10
+gaps outer 10
+smart_borders on
+new_window 1pixel
 
 # xrandr
 bindsym XF86Display exec arandr
@@ -74,6 +101,8 @@ bindsym $mod+Pause exec /home/dflies/scripts/keyboard.sh
 
 # start a terminal
 bindsym $mod+Return exec urxvt
+# start filemanager
+bindsym $mod+Shift+f exec urxvt -e ranger
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -134,7 +163,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace number $w1
@@ -191,17 +220,36 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+d mode "resize"
+#bindsym $mod+d mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    #mode hide
+    mode dock
+    tray_output DP-1
+    position top
+    output DP-1
+    font pango:Ubuntu Mono, Icons 9
+    # status_command "/home/dflies/.i3/conkystatus"
+    status_command i3blocks
+
+    colors {
+        background #111111
+        statusline #ffffff
+        focused_workspace #111111 #111111 #3d8cdb
+        active_workspace #111111 #111111 #3d8cdb
+        inactive_workspace #111111 #111111 #aaaaaa
+        urgent_workspace #ffffff #900000
+    }
+}
+
+bar {
     mode dock
     position top
-<<<<<<< HEAD
-    font pango:DejaVu Sans Mono, Icons 8
-    status_command "/home/dflies/.i3/conkystatus"
+    tray_output DP-1
+    output DVI-I-1
+    font pango:Ubuntu Mono, Icons 9
+    status_command i3blocks -c ~/.i3/2blocks.conf
 
     colors {
         background #111111
@@ -221,3 +269,9 @@ for_window [class="Arandr"] floating enable
 for_window [class="Thunar"] floating enable
 for_window [class="Gpicview"] floating enable
 for_window [class="YADWIN"] border none floating enable
+for_window [class="lighthouse"] border none, floating enable
+for_window [class="conky"] move scratchpad
+
+exec xmodmap -e "keycode 49 = less greater less greater bar brokenbar bar"
+exec xmodmap -e "remove Lock = Caps_Lock"
+exec xmodmap -e "Caps_Lock = Scroll_Lock"
