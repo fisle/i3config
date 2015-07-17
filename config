@@ -12,10 +12,12 @@
 # startup apps
 exec clipit
 exec nm-applet
-exec dropboxd
+exec dropbox
 exec udiskie --tray
 exec setxkbmap fi
 exec xmodmap -e "keycode 49 = less greater less greater bar brokenbar bar"
+exec owncloud
+exec nitrogen --restore
 
 set $mod Mod4
 
@@ -23,7 +25,7 @@ set $mod Mod4
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font pango:Ubuntu 8
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -37,16 +39,16 @@ client.focused_inactive     #000000 #333333 #ffffff
 client.unfocused            #000000 #333333 #ffffff
 client.urgent               #ff0000 #ff0000 #ff0000
 
-set $w1 1 main
-set $w2 2 www
-set $w3 3 three
-set $w4 4 four
-set $w5 5 five
-set $w6 6 six
-set $w7 7 seven
-set $w8 8 eight
-set $w9 9 nine
-set $w10 10 ten
+set $w1 1
+set $w2 2
+set $w3 3
+set $w4 4
+set $w5 5
+set $w6 6
+set $w7 7
+set $w8 8
+set $w9 9
+set $w10 10
 
 workspace_auto_back_and_forth yes
 
@@ -64,7 +66,21 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioStop exec playerctl stop
 
-bindsym $mod+End exec i3lock --color=000000
+bindsym $mod+End exec i3lock --color=000000 & sleep 1 && xset dpms force off
+bindsym $mod+Home exec sleep 1 && xset dpms force off
+bindsym $mod+Insert exec /home/dflies/scripts/keyboard.sh
+bindsym $mod+Delete exec /home/dflies/scripts/sink.sh
+bindsym $mod+Shift+s exec ~/.i3/workspace_swap.sh
+
+# i3 gaps
+bindsym $mod+Next gaps outer current minus 5
+bindsym $mod+Prior gaps outer current plus 5
+bindsym $mod+Shift+Next gaps inner current minus 5
+bindsym $mod+Shift+Prior gaps inner current plus 5
+gaps inner 10
+gaps outer 0
+smart_borders on
+new_window 1pixel
 
 # xrandr
 bindsym XF86Display exec arandr
@@ -90,7 +106,7 @@ bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
 #bindsym $mod+semicolon focus right
-bindsym $mod+47 focus right
+bindsym $mod+odiaeresis focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -102,13 +118,13 @@ bindsym $mod+Right focus right
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+odiaeresis move right
 
 # alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Right move right
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -134,7 +150,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+Shift+a focus child
 
 # switch to workspace
 bindsym $mod+1 workspace number $w1
@@ -199,8 +215,8 @@ bar {
     #mode hide
     mode dock
     position top
-<<<<<<< HEAD
-    font pango:DejaVu Sans Mono, Icons 8
+    font pango:Ubuntu, Icons 8
+    #tray_output eDP1
     status_command "/home/dflies/.i3/conkystatus"
 
     colors {
@@ -220,4 +236,5 @@ for_window [class="urxvt"] border 1pixel
 for_window [class="Arandr"] floating enable
 for_window [class="Thunar"] floating enable
 for_window [class="Gpicview"] floating enable
-for_window [class="YADWIN"] border none floating enable
+for_window [class="YADWIN"] border none, floating enable
+for_window [class="lighthouse"] floating enable

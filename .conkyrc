@@ -10,6 +10,8 @@ override_utf8_locale yes
 
 TEXT
 ,[
+  {"full_text": "CAL", "color":"\#888888","separator":false,"separator_block_width":6},
+  {"full_text": "${execi 60 gcalcli agenda --military --nocolor --calendar petri.immonen@scandinavianoutdoor.com --nostarted | head -2 | tail -1}","color":"\#FFFFFF","separator":false,"separator_block_width":6},
   {"full_text": "CPU", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "$cpu%","color": "\#99D7FF","separator":false,"separator_block_width":6},
   {"full_text": "${acpitemp}°C", "color": "\#d3bb0f","separator":false,"separator_block_width":6},
@@ -35,8 +37,6 @@ $endif
   {"full_text": " ${battery} / ${battery_time}","separator":false,"separator_block_width":6},
   {"full_text": "LOAD", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${loadavg 1}","color": "\#ffffff","separator":false,"separator_block_width":6},
-  {"full_text": "WEATHER", "color":"\#888888","separator":false,"separator_block_width":6},
-  {"full_text": "${execi 300 /home/dflies/.i3/weather.sh}","color":"\#ffffff","separator":false,"separator_block_width":6},
   {"full_text": "DATE", "color":"\#888888","separator":false,"separator_block_width":6},
   {"full_text": "${time %a %d.%m. (%b)}", "name":"date","separator":false,"separator_block_width":6},
   {"full_text": "TIME", "color":"\#888888","separator":false,"separator_block_width":6},
