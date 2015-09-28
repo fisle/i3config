@@ -1,5 +1,9 @@
 #!/bin/bash
 adapter=$(ip a | grep wlp | cut -d ':' -f2 | head -n1)
+
+[[ ! -d /sys/class/net/${adapter}/wireless ]] ||
+    [[ "$(cat /sys/class/net/$adapter/operstate)" = 'down' ]] && exit
+
 ssid=$(iwconfig $adapter | awk -F\" '{print $2}' | head -n1)
 quality=$(iwconfig $adapter | awk -F= '/Quality/ {print $2}' | awk '{print $1*1}' | bc -l)
 
