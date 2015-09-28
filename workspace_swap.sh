@@ -1,2 +1,2 @@
 #!/bin/bash
-i3-msg move workspace to output left
+i3-msg move workspace to output right
