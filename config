@@ -232,6 +232,7 @@ for_window [class="xterm"] border 1pixel
 for_window [class="urxvt"] border 1pixel
 for_window [class="Arandr"] floating enable
 for_window [class="Thunar"] floating enable
+for_window [class="SMPlayer"] floating enable
 for_window [class="Gpicview"] floating enable
 for_window [class="YADWIN"] border none floating enable
 for_window [class="lighthouse"] border none, floating enable
