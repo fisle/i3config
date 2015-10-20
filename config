@@ -69,7 +69,7 @@ bindsym $mod+Shift+Prior gaps inner current plus 5
 gaps inner 10
 gaps outer 0
 smart_borders on
-new_window 1pixel
+new_window pixel 2
 
 # xrandr
 bindsym XF86Display exec arandr
@@ -175,7 +175,7 @@ mode "resize" {
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym odiaeresis resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -191,13 +191,32 @@ mode "resize" {
 bindsym $mod+d mode "resize"
 
 bar {
+    output HDMI1
     mode dock
+    tray_output primary
     position top
     font pango:Ubuntu, Icons 8
     status_command i3blocks
 
     colors {
-        background #111111
+        background #000000
+        statusline #ffffff
+        focused_workspace #111111 #111111 #3d8cdb
+        active_workspace #111111 #111111 #3d8cdb
+        inactive_workspace #111111 #111111 #aaaaaa
+        urgent_workspace #ffffff #900000
+    }
+}
+bar {
+    output eDP1
+    tray_output primary
+    mode dock
+    position top
+    font pango:Ubuntu, Icons 11
+    status_command i3blocks
+
+    colors {
+        background #000000
         statusline #ffffff
         focused_workspace #111111 #111111 #3d8cdb
         active_workspace #111111 #111111 #3d8cdb
@@ -220,6 +239,8 @@ for_window [class="conky"] move scratchpad
 for_window [class="XCalc"] floating enable
 for_window [instance="metask"] floating enable;
 for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0x 20px; resize shrink height 100px; resize grow width 683px; move center; move scratchpad
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
 
 exec xmodmap -e "keycode 49 = less greater less greater bar brokenbar bar"
 exec xmodmap -e "remove Lock = Caps_Lock"
