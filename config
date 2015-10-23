@@ -1,4 +1,5 @@
 # startup apps
+exec ~/scripts/primary.sh
 exec clipit
 exec nm-applet
 exec dropbox
