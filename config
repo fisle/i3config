@@ -10,7 +10,7 @@ exec owncloud
 exec dunst
 exec pulseaudio --start
 exec nitrogen --restore
-exec volnoti
+exec volnoti -t 0.2 -r 10
 
 set $mod Mod4
 
