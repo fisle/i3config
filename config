@@ -44,7 +44,10 @@ bindsym XF86AudioLowerVolume exec ~/scripts/volume.rb down
 bindsym XF86AudioMute exec ~/scripts/volume.rb toggle
 bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input
 
-bindsym $mod+End exec killall unclutter & i3lock --color=000000 & sleep 1 && xset dpms force off
+# brightness control
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+
 bindsym $mod+Home exec sleep 1 && xset dpms force off
 bindsym $mod+Insert exec ~/scripts/keyboard.sh
 bindsym $mod+Delete exec ~/scripts/sink.sh
