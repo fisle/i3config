@@ -25,9 +25,9 @@ STEP="${BLOCK_INSTANCE#*/}"
 STEP="${STEP:-5}"
 
 case $BLOCK_BUTTON in	# Ponymix auto-prints volume so >/dev/null
-  3) ponymix toggle >/dev/null;;				# Right Click
-  4) ponymix --max-volume $CEILING increase $STEP >/dev/null;;	# Scroll Up
-  5) ponymix --max-volume $CEILING decrease $STEP >/dev/null;;	# Scroll Down
+  3) ponymix toggle >/dev/null && pkill -RTMIN+10 i3blocks && ~/.i3/get_volume.sh;;				# Right Click
+  4) ponymix --max-volume $CEILING increase $STEP >/dev/null && pkill -RTMIN+10 i3blocks && ~/.i3/get_volume.sh;;	# Scroll Up
+  5) ponymix --max-volume $CEILING decrease $STEP >/dev/null && pkill -RTMIN+10 i3blocks && ~/.i3/get_volume.sh;;	# Scroll Down
 esac
 
 if ponymix is-muted; then
