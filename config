@@ -239,14 +239,16 @@ for_window [class="YADWIN"] border none floating enable
 for_window [class="lighthouse"] border none, floating enable
 for_window [class="conky"] move scratchpad
 for_window [class="XCalc"] floating enable
+for_window [title="galculator"] floating enable
 for_window [instance="metask"] floating enable;
 for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0x 20px; resize shrink height 100px; resize grow width 683px; move center; move scratchpad
+for_window [instance="music"] floating enable;
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-
-exec xmodmap -e "keycode 49 = less greater less greater bar brokenbar bar"
-exec xmodmap -e "remove Lock = Caps_Lock"
-exec xmodmap -e "Caps_Lock = Scroll_Lock"
+for_window [title="Calendar$"] floating enable
+for_window [title="Application Finder"] floating enable
+for_window [title="Volume Control"] floating enable
+for_window [title="^Hearthstone$"] floating enable
 
 exec --no-startup-id urxvt -name metask
 exec xsetroot -cursor_name left_ptr

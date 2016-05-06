@@ -1,5 +1,5 @@
 #!/bin/bash
-IP=$(curl --silent http://afk.fisle.eu/ip.php)
+IP=$(curl --silent https://afk.fisle.eu/ip.php)
 
 case $BLOCK_BUTTON in
     3) echo -n "$IP" | xclip -q -se c ;;

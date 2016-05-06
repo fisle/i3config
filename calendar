@@ -4,4 +4,6 @@ date '+%a %d.%m. (%B - Week %W)'
 
 if [[ $BLOCK_BUTTON == "1" ]]; then
     gsimplecal
+elif [[ $BLOCK_BUTTON == "3" ]]; then
+    gnome-calendar
 fi
