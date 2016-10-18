@@ -1,5 +1,6 @@
 # startup apps
 exec ~/scripts/primary.sh
+exec blueman-applet
 exec clipit
 exec nm-applet
 exec dropbox
@@ -11,6 +12,7 @@ exec dunst
 exec pulseaudio --start
 exec nitrogen --restore
 exec volnoti -t 0.2 -r 10
+exec --no-startup-id urxvt -name metask
 
 set $mod Mod4
 
@@ -48,6 +50,7 @@ bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
 
+bindsym $mod+End exec i3lock --color=000000 & sleep 1 && xset dpms force off
 bindsym $mod+Home exec sleep 1 && xset dpms force off
 bindsym $mod+Insert exec ~/scripts/keyboard.sh
 bindsym $mod+Delete exec ~/scripts/sink.sh
@@ -254,5 +257,6 @@ for_window [title="Application Finder"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [title="^Hearthstone$"] floating enable
 
-exec --no-startup-id urxvt -name metask
 exec xsetroot -cursor_name left_ptr
+exec ~/scripts/keyboard.sh
+exec compton -G -C -o0
