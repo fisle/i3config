@@ -12,6 +12,7 @@ exec dunst
 exec pulseaudio --start
 exec nitrogen --restore
 exec volnoti -t 0.2 -r 10
+exec unclutter
 exec --no-startup-id urxvt -name metask
 
 set $mod Mod4
