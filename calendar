@@ -1,6 +1,8 @@
 #!/bin/bash
 
-date '+%a %d.%m. (%B - Week %W)' 
+date '+%a %d.%m. (%B - Week %W)'
+date '+%a %d.%m. (%B - Week %W)'
+echo "#FFFFFF"
 
 if [[ $BLOCK_BUTTON == "1" ]]; then
     gsimplecal

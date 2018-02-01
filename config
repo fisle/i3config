@@ -1,18 +1,9 @@
 # startup apps
-exec ~/scripts/primary.sh
-exec blueman-applet
-exec clipit
-exec nm-applet
-exec dropbox
-exec udiskie --tray
-exec setxkbmap fi
-exec setxkbmap -option "nbsp:none"
-exec owncloud
-exec dunst
-exec pulseaudio --start
-exec nitrogen --restore
-exec volnoti -t 0.2 -r 10
-exec unclutter
+exec --no-startup-id ~/scripts/primary.sh
+exec --no-startup-id dunst
+exec --no-startup-id pulseaudio --start
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id xbanish
 exec --no-startup-id urxvt -name metask
 
 set $mod Mod4
@@ -42,27 +33,34 @@ workspace_auto_back_and_forth yes
 floating_modifier $mod
 
 # volume control
-bindsym XF86AudioRaiseVolume exec ~/scripts/volume.rb up
-bindsym XF86AudioLowerVolume exec ~/scripts/volume.rb down
-bindsym XF86AudioMute exec ~/scripts/volume.rb toggle
-bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/scripts/volume.rb up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/scripts/volume.rb down
+bindsym XF86AudioMute exec --no-startup-id ~/scripts/volume.rb toggle
+bindsym XF86AudioMicMute exec --no-startup-id pulseaudio-ctl mute-input
 
 # brightness control
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
 
-bindsym $mod+End exec i3lock --color=000000 & sleep 1 && xset dpms force off
-bindsym $mod+Home exec sleep 1 && xset dpms force off
-bindsym $mod+Insert exec ~/scripts/keyboard.sh
-bindsym $mod+Delete exec ~/scripts/sink.sh
-bindsym $mod+Shift+s exec ~/.i3/workspace_swap.sh
+bindsym $mod+End exec --no-startup-id i3lock --color=000000 & sleep 1 && xset dpms force off
+bindsym $mod+Home exec --no-startup-id sleep 1 && xset dpms force off
+bindsym $mod+Delete exec --no-startup-id ~/scripts/sink.sh
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/workspace_swap.sh
 bindsym $mod+u [urgent=latest] focus
 
 # audio control
-bindsym XF86AudioNext exec ~/scripts/player.sh next
-bindsym XF86AudioPrev exec ~/scripts/player.sh prev
-bindsym XF86AudioPlay exec ~/scripts/player.sh toggle
-bindsym XF86AudioStop exec ~/scripts/player.sh stop
+bindsym XF86AudioNext exec --no-startup-id ~/scripts/player.sh next
+bindsym XF86AudioPrev exec --no-startup-id ~/scripts/player.sh prev
+bindsym XF86AudioPlay exec --no-startup-id ~/scripts/player.sh toggle
+bindsym XF86AudioStop exec --no-startup-id ~/scripts/player.sh stop
+
+bindsym Mod5+F10 exec --no-startup-id ~/scripts/player.sh prev
+bindsym Mod5+F11 exec --no-startup-id ~/scripts/player.sh toggle
+bindsym Mod5+F12 exec --no-startup-id ~/scripts/player.sh next
+
+bindsym Mod5+x exec --no-startup-id ~/scripts/volume.rb toggle
+bindsym Mod5+c exec --no-startup-id ~/scripts/volume.rb down
+bindsym Mod5+v exec --no-startup-id ~/scripts/volume.rb up
 
 # scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -77,25 +75,24 @@ bindsym $mod+Shift+Next gaps inner current minus 5
 bindsym $mod+Shift+Prior gaps inner current plus 5
 gaps inner 10
 gaps outer 0
-smart_borders on
+# smart_borders on
 new_window pixel 2
 
 # xrandr
-bindsym XF86Display exec arandr
-
-# Usb keyboard fix
-bindsym $mod+Pause exec ~/scripts/keyboard.sh
+bindsym XF86Display exec --no-startup-id arandr
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+# bindsym $mod+Return exec --no-startup-id urxvt
+# bindsym $mod+Return exec --no-startup-id alacritty
+bindsym $mod+Return exec --no-startup-id termite
 # start filemanager
-bindsym $mod+Shift+f exec urxvt -e ranger
+bindsym $mod+Shift+f exec --no-startup-id urxvt -e ranger
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+r exec dmenu_run
+bindsym $mod+r exec --no-startup-id dmenu_run
 
 # change focus
 bindsym $mod+j focus left
@@ -201,6 +198,7 @@ bindsym $mod+d mode "resize"
 
 bar {
     output HDMI1
+    output DP2-1
     mode dock
     tray_output primary
     position top
@@ -221,8 +219,26 @@ bar {
     tray_output primary
     mode dock
     position top
-    font pango:Ubuntu, Icons 11
+    font pango:Ubuntu, Icons 8
     status_command i3blocks
+
+    colors {
+        background #000000
+        statusline #ffffff
+        focused_workspace #000000 #000000 #3d8cdb
+        active_workspace #000000 #000000 #3d8cdb
+        inactive_workspace #000000 #000000 #aaaaaa
+        urgent_workspace #ffffff #900000
+    }
+}
+
+bar {
+    output DP2-2-1
+    mode dock
+    tray_output primary
+    position top
+    font pango:Ubuntu, Icons 8
+    status_command i3blocks -c ~/.i3/secondary_blocks.conf
 
     colors {
         background #000000
@@ -250,14 +266,23 @@ for_window [class="XCalc"] floating enable
 for_window [title="galculator"] floating enable
 for_window [instance="metask"] floating enable;
 for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0x 20px; resize shrink height 100px; resize grow width 683px; move center; move scratchpad
-for_window [instance="music"] floating enable;
+for_window [instance="music"] floating enable; resize set 902 512
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Calendar$"] floating enable
 for_window [title="Application Finder"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [title="^Hearthstone$"] floating enable
+for_window [title="Pomolectron"] floating enable
 
-exec xsetroot -cursor_name left_ptr
-exec ~/scripts/keyboard.sh
-exec compton -G -C -o0
+exec --no-startup-id xsetroot -cursor_name left_ptr
+exec --no-startup-id ~/scripts/keyboard.sh
+exec --no-startup-id blueman-applet
+exec --no-startup-id clipit
+exec --no-startup-id nm-applet
+exec --no-startup-id dropbox
+exec --no-startup-id udiskie --tray
+exec --no-startup-id owncloud
+exec --no-startup-id menutray -i
+# exec --no-startup-id gbnotify
+# exec compton -G -C -o0 -D0
