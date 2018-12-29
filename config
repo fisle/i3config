@@ -1,8 +1,16 @@
 # startup apps
-exec --no-startup-id ~/scripts/primary.sh
+# exec --no-startup-id ~/scripts/primary.sh
+
+# Gnome stuff
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
+exec_always --no-startup-id gnome-power-manager
+exec --no-startup-id gnome-flashback
+
 exec --no-startup-id dunst
 exec --no-startup-id pulseaudio --start
-exec --no-startup-id nitrogen --restore
+exec --no-startup-id parcellite
+# exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id feh --bg-scale $(gsettings get org.gnome.desktop.background picture-uri | awk -F'//' '{print substr($2, 1, length($2)-1)}')
 exec --no-startup-id xbanish
 exec --no-startup-id urxvt -name metask
 
@@ -39,10 +47,11 @@ bindsym XF86AudioMute exec --no-startup-id ~/scripts/volume.rb toggle
 bindsym XF86AudioMicMute exec --no-startup-id pulseaudio-ctl mute-input
 
 # brightness control
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+# bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
+# bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 && volnoti-show -s /usr/share/icons/HighContrast/48x48/status/display-brightness.png $(xbacklight -get)
 
-bindsym $mod+End exec --no-startup-id i3lock --color=000000 & sleep 1 && xset dpms force off
+# bindsym $mod+End exec --no-startup-id i3lock --color=000000 & sleep 1 && xset dpms force off
+bindsym $mod+End exec --no-startup-id gnome-screensaver-command --lock && xset dpms force off
 bindsym $mod+Home exec --no-startup-id sleep 1 && xset dpms force off
 bindsym $mod+Delete exec --no-startup-id ~/scripts/sink.sh
 bindsym $mod+Shift+s exec --no-startup-id ~/.i3/workspace_swap.sh
@@ -69,8 +78,8 @@ bindsym $mod+F12 [instance="conky"] scratchpad show
 bindsym $mod+t [instance="metask"] scratchpad show
 
 # i3 gaps
-bindsym $mod+Next gaps outer current minus 5
-bindsym $mod+Prior gaps outer current plus 5
+bindsym $mod+Next gaps horizontal current minus 5
+bindsym $mod+Prior gaps horizontal current plus 5
 bindsym $mod+Shift+Next gaps inner current minus 5
 bindsym $mod+Shift+Prior gaps inner current plus 5
 gaps inner 10
@@ -84,7 +93,8 @@ bindsym XF86Display exec --no-startup-id arandr
 # start a terminal
 # bindsym $mod+Return exec --no-startup-id urxvt
 # bindsym $mod+Return exec --no-startup-id alacritty
-bindsym $mod+Return exec --no-startup-id termite
+# bindsym $mod+Return exec --no-startup-id termite
+bindsym $mod+Return exec --no-startup-id gnome-terminal
 # start filemanager
 bindsym $mod+Shift+f exec --no-startup-id urxvt -e ranger
 
@@ -202,8 +212,8 @@ bar {
     mode dock
     tray_output primary
     position top
-    font pango:Ubuntu, Icons 8
-    status_command i3blocks
+    font pango:Ubuntu, Icons 12
+    # status_command i3blocks -c ~/.i3/i3blocks.conf
 
     colors {
         background #000000
@@ -216,11 +226,12 @@ bar {
 }
 bar {
     output eDP1
+    # output eDP-1
     tray_output primary
     mode dock
     position top
-    font pango:Ubuntu, Icons 8
-    status_command i3blocks
+    font pango:Ubuntu, Icons 11
+    # status_command i3blocks
 
     colors {
         background #000000
@@ -238,7 +249,7 @@ bar {
     tray_output primary
     position top
     font pango:Ubuntu, Icons 8
-    status_command i3blocks -c ~/.i3/secondary_blocks.conf
+    # status_command i3blocks -c ~/.i3/secondary_blocks.conf
 
     colors {
         background #000000
@@ -265,7 +276,8 @@ for_window [class="conky"] move scratchpad
 for_window [class="XCalc"] floating enable
 for_window [title="galculator"] floating enable
 for_window [instance="metask"] floating enable;
-for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0x 20px; resize shrink height 100px; resize grow width 683px; move center; move scratchpad
+for_window [instance="metask"] move scratchpad;
+# [instance="metask"] scratchpad show; move position 0px 20px; resize shrink height 300px; resize grow width 683px; [instance="metask"] move center; [instance="metask"] move scratchpad
 for_window [instance="music"] floating enable; resize set 902 512
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
@@ -275,14 +287,15 @@ for_window [title="Volume Control"] floating enable
 for_window [title="^Hearthstone$"] floating enable
 for_window [title="Pomolectron"] floating enable
 
-exec --no-startup-id xsetroot -cursor_name left_ptr
-exec --no-startup-id ~/scripts/keyboard.sh
-exec --no-startup-id blueman-applet
-exec --no-startup-id clipit
-exec --no-startup-id nm-applet
-exec --no-startup-id dropbox
-exec --no-startup-id udiskie --tray
-exec --no-startup-id owncloud
-exec --no-startup-id menutray -i
+# exec --no-startup-id xsetroot -cursor_name left_ptr
+# exec --no-startup-id ~/scripts/keyboard.sh
+# exec --no-startup-id blueman-applet
+# exec --no-startup-id clipit
+# exec --no-startup-id nm-applet
+# exec --no-startup-id dropbox
+# exec --no-startup-id udiskie --tray
+# exec --no-startup-id owncloud
+# exec --no-startup-id menutray -i
 # exec --no-startup-id gbnotify
 # exec compton -G -C -o0 -D0
+exec_always --no-startup-id pkill polybar ; polybar top
